@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace ConsoleApplication2
@@ -37,6 +38,7 @@ namespace ConsoleApplication2
             { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 2, 2, 0, 1 },
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0 }};
 
+        Queue<int[,]> queue=new Queue<int[,]>();
         private static int _shift; //Смещение
         /// <summary>
         /// Флаг говорящий о положении машинки
@@ -46,7 +48,7 @@ namespace ConsoleApplication2
         /// <summary>
         /// Время одного такта игры
         /// </summary>
-        public static int Time = 200;
+        public static int Time = 50;
         /// <summary>
         /// Отсчет 7и тактов
         /// </summary>
@@ -59,6 +61,10 @@ namespace ConsoleApplication2
         /// Переменная сообщающая о поражении
         /// </summary>
         public static bool Error;
+        /// <summary>
+        /// Переменная для меню
+        /// </summary>
+        public static int Menu = 1;
         /// <summary>
         /// Семафор для корректной игры
         /// </summary>
@@ -73,10 +79,10 @@ namespace ConsoleApplication2
         public static void Output()
         {
             Console.Clear();
-            for (int i = 0; i < GeneralMatrix.GetLength(0); i++)
+            for (var i = 0; i < GeneralMatrix.GetLength(0); i++)
             {
                 Console.Write("                             ");
-                for (int j = 0; j < GeneralMatrix.GetLength(1); j++)
+                for (var j = 0; j < GeneralMatrix.GetLength(1); j++)
                 {
                     if (GeneralMatrix[i, j] != 0)
                     {
@@ -97,7 +103,7 @@ namespace ConsoleApplication2
         public static void Motion()
         {
             _shift = GeneralMatrix[0, 0] == 0 ? 0 : 1;
-            for (int i = _shift; i < GeneralMatrix.GetLength(0); i = i + 2)
+            for (var i = _shift; i < GeneralMatrix.GetLength(0); i = i + 2)
             {
                 if (_shift == 1)
                 {
@@ -113,9 +119,9 @@ namespace ConsoleApplication2
                 GeneralMatrix[i + 1, 7] = 0;
                 GeneralMatrix[i + 1, 14] = 0;
             }
-            for (int i = GeneralMatrix.GetLength(0) - 1; i >= 0; i--)
+            for (var i = GeneralMatrix.GetLength(0) - 1; i >= 0; i--)
             {
-                for (int j = GeneralMatrix.GetLength(1) - 1; j >= 0; j--)
+                for (var j = GeneralMatrix.GetLength(1) - 1; j >= 0; j--)
                 {
                     if (GeneralMatrix[i, j] == 8)
                     {
@@ -153,7 +159,6 @@ namespace ConsoleApplication2
                         GeneralMatrix[i, 12] = 0;
                         if (GeneralMatrix[i, 1] == 8)
                         {
-                            //ResetEvent1.Set();
                             Error = true;
                         }
                     }
@@ -171,7 +176,6 @@ namespace ConsoleApplication2
                         GeneralMatrix[i, 12] = 2;
                         if (GeneralMatrix[i, 13] == 8)
                         {
-                            //ResetEvent1.Set();
                             Error = true;
                         }
                     }
