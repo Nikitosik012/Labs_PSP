@@ -9,25 +9,12 @@ namespace ConsoleApplication2
     class Program
     {
         public static Thread Driving = new Thread(Variables.LaneChange);
-        public static Thread EndGame=new Thread(Variables.End);
+        public static Thread EndGame = new Thread(Variables.End);
+
         static void Main()
         {
-            //while (true)
-            //{
-
-            //    var key1 = Console.ReadKey(true);
-            //    Console.ForegroundColor = ConsoleColor.DarkRed;
-            //    Console.WriteLine("                               One player");
-            //    Console.ResetColor();
-            //    Console.WriteLine("                               Multiplayer");
-            //    Console.WriteLine("                               Exit");
-            //    Console.ReadKey();
-            //}
-            int n = Convert.ToInt32(Console.ReadLine());
-            if (n == 2)
-            {
-                int n1 = Convert.ToInt32(Console.ReadLine());
-                if (n1 == 1)
+            Variables.MenuGame();
+            if (Variables.Menu == 4)
                 {
                     IPHostEntry ipHost = Dns.GetHostEntry("localhost");
                     IPAddress ipAddr = ipHost.AddressList[1];
@@ -35,7 +22,7 @@ namespace ConsoleApplication2
                     var sListener = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                     sListener.Bind(ipEndPoint);
                     sListener.Listen(10);
-                    GamePlay();
+                    Variables.GamePlay();
                     Console.WriteLine("Ожидаем соединение через порт {0}", ipEndPoint);
                     Socket handler = sListener.Accept();
                     var bytes = new byte[1024];
@@ -47,10 +34,9 @@ namespace ConsoleApplication2
                     handler.Send(msg);
                     Console.ReadKey();
                 }
-                else
+                if(Variables.Menu==5)
                 {
-                    // Буфер для входящих данных
-                    var bytes = new byte[1000000];
+                    var bytes = new byte[1000];
 
                     // Соединяемся с удаленным устройством
 
@@ -61,7 +47,7 @@ namespace ConsoleApplication2
                     var ipEndPoint = new IPEndPoint(ipAddr, 11000);
                     var sender = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                     sender.Connect(ipEndPoint);
-                    GamePlay();
+                    Variables.GamePlay();
                     byte[] msg = Encoding.UTF8.GetBytes(Convert.ToString(Variables.TaktsMax));
 
                     // Отправляем данные через сокет
@@ -74,38 +60,14 @@ namespace ConsoleApplication2
                     sender.Close();
                     Console.ReadKey();
                 }
-            }
-            else
+            if (Variables.Menu == 1)
             {
-                Console.ReadKey();
-                GamePlay();
+                Variables.GamePlay();
             }
+
 
         }
 
-        private static void GamePlay()
-        {
-            Driving.Start();
-            EndGame.Start();
-            while (true)
-            {
-                Variables.HSemaphore.WaitOne();
-                if (Variables.Error)
-                    break;
-                Variables.Output();
-                Variables.Motion();
-                Variables.HSemaphore.Release();
-                Thread.Sleep(Variables.Time);
-                Variables.Takts++;
-                Variables.TaktsMax++;
-                if (Variables.Takts != 7) continue;
-                Variables.Obstacle();
-                Variables.Takts = 0;
-            }
-            Variables.ResetEvent1.Set();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("                             Game over " + Variables.TaktsMax + " Points\n");
-            Console.ReadKey();
-        }
+
     }
 }

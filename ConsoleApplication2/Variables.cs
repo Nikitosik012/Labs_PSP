@@ -219,5 +219,100 @@ namespace ConsoleApplication2
             ResetEvent1.WaitOne();
             Program.Driving.Abort();
         }
+        /// <summary>
+        /// Меню игры (появляется 1 раз)
+        /// </summary>
+        public static void MenuGame()
+        {
+            while (true)
+            {
+                Console.Clear();
+                MenuMethod(1);
+                Console.WriteLine("\n\n\n\n\n\n\n\n\n                               Single player");
+                Console.ResetColor();
+                MenuMethod(2);
+                Console.WriteLine("                               Multiplayer");
+                Console.ResetColor();
+                MenuMethod(3);
+                Console.WriteLine("                               Exit");
+                Console.ResetColor();
+                var key1 = Console.ReadKey(true);
+                if (key1.Key == ConsoleKey.DownArrow && Menu != 3)
+                {
+                    Menu++;
+                }
+                if (key1.Key == ConsoleKey.UpArrow && Menu != 0)
+                {
+                    Menu--;
+                }
+                if (key1.Key == ConsoleKey.Enter)
+                {
+                    break;
+                }
+            }
+            if (Menu == 2)
+            {
+                Menu = 4;
+                while (true)
+                {
+                    Console.Clear();
+                    MenuMethod(4);
+                    Console.WriteLine("\n\n\n\n\n\n\n\n\n                               Server");
+                    Console.ResetColor();
+                    MenuMethod(5);
+                    Console.WriteLine("                               Client");
+                    Console.ResetColor();
+                    var key1 = Console.ReadKey(true);
+                    if (key1.Key == ConsoleKey.DownArrow && Menu != 5)
+                    {
+                        Menu++;
+                    }
+                    if (key1.Key == ConsoleKey.UpArrow && Menu != 4)
+                    {
+                        Menu--;
+                    }
+                    if (key1.Key == ConsoleKey.Enter)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// Метод подкрашиваюший выбранный пункт меню
+        /// </summary>
+        /// <param name="n"></param>
+        public static void MenuMethod(int n)
+        {
+            if (Menu == n)
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+        }
+        /// <summary>
+        /// Геймплей игры
+        /// </summary>
+        public static void GamePlay()
+        {
+            Program.Driving.Start();
+            Program.EndGame.Start();
+            while (true)
+            {
+                HSemaphore.WaitOne();
+                if (Error)
+                    break;
+                Output();
+                Motion();
+                HSemaphore.Release();
+                Thread.Sleep(Time);
+                Takts++;
+                TaktsMax++;
+                if (Takts != 7) continue;
+                Obstacle();
+                Takts = 0;
+            }
+            ResetEvent1.Set();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("                             Game over " + TaktsMax + " Points\n");
+            Console.ReadKey();
+        }
     }
 }
