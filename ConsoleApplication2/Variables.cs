@@ -33,10 +33,10 @@ namespace ConsoleApplication2
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
             { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 2, 2, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 2, 2, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }};
+            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 6, 6, 6, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 6, 6, 6, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }};
 
         public static Semaphore SemaphoreBuffer = new Semaphore(1, 1);
         /// <summary>
@@ -51,11 +51,12 @@ namespace ConsoleApplication2
         public static Thread OutBuffer = new Thread(OutBufferMethod);
         public static int[,] Old = new int[GeneralMatrix.GetLength(0), GeneralMatrix.GetLength(1)];
         private static int _shift; //Смещение
+
         /// <summary>
         /// Флаг говорящий о положении машинки
         /// </summary>
         /// True-левый False-правый
-        public static bool Key;
+        public static int Key = 2;
         /// <summary>
         /// Время одного такта игры
         /// </summary>
@@ -173,13 +174,14 @@ namespace ConsoleApplication2
             while (true)
             {
                 var key1 = Console.ReadKey(true);
-                if (key1.Key == ConsoleKey.LeftArrow && !Key)
+
+                if (key1.Key == ConsoleKey.LeftArrow && Key == 2)
                 {
                     for (var i = 20; i < GeneralMatrix.GetLength(0); i++)
                     {
-                        GeneralMatrix[i, 2] = 2;
-                        GeneralMatrix[i, 3] = 2;
-                        GeneralMatrix[i, 4] = 2;
+                        GeneralMatrix[i, 2] = 6;
+                        GeneralMatrix[i, 3] = 6;
+                        GeneralMatrix[i, 4] = 6;
                         GeneralMatrix[i, 10] = 0;
                         GeneralMatrix[i, 11] = 0;
                         GeneralMatrix[i, 12] = 0;
@@ -188,24 +190,92 @@ namespace ConsoleApplication2
                             Error = true;
                         }
                     }
-                    Key = true;
+                    Key--;
                 }
-                if (key1.Key == ConsoleKey.RightArrow && Key)
+                else if (key1.Key == ConsoleKey.LeftArrow && Key == 3)
+                {
+                    for (var i = 20; i < GeneralMatrix.GetLength(0); i++)
+                    {
+                        GeneralMatrix[i, 16] = 0;
+                        GeneralMatrix[i, 17] = 0;
+                        GeneralMatrix[i, 18] = 0;
+                        GeneralMatrix[i, 10] = 6;
+                        GeneralMatrix[i, 11] = 6;
+                        GeneralMatrix[i, 12] = 6;
+                        if (GeneralMatrix[i, 9] == 8)
+                        {
+                            Error = true;
+                        }
+                    }
+                    Key--;
+                }
+                else if (key1.Key == ConsoleKey.LeftArrow && Key == 4)
+                {
+                    for (var i = 20; i < GeneralMatrix.GetLength(0); i++)
+                    {
+                        GeneralMatrix[i, 16] = 6;
+                        GeneralMatrix[i, 17] = 6;
+                        GeneralMatrix[i, 18] = 6;
+                        GeneralMatrix[i, 22] = 0;
+                        GeneralMatrix[i, 23] = 0;
+                        GeneralMatrix[i, 24] = 0;
+                        if (GeneralMatrix[i, 15] == 8)
+                        {
+                            Error = true;
+                        }
+                    }
+                    Key--;
+                }
+                else if (key1.Key == ConsoleKey.RightArrow && Key == 3)
+                {
+                    for (var i = 20; i < GeneralMatrix.GetLength(0); i++)
+                    {
+                        GeneralMatrix[i, 16] = 0;
+                        GeneralMatrix[i, 17] = 0;
+                        GeneralMatrix[i, 18] = 0;
+                        GeneralMatrix[i, 23] = 6;
+                        GeneralMatrix[i, 24] = 6;
+                        GeneralMatrix[i, 25] = 6;
+                        if (GeneralMatrix[i, 25] == 8)
+                        {
+                            Error = true;
+                        }
+                    }
+                    Key++;
+                }
+                else if (key1.Key == ConsoleKey.RightArrow && Key == 2)
+                {
+                    for (var i = 20; i < GeneralMatrix.GetLength(0); i++)
+                    {
+                        GeneralMatrix[i, 16] = 6;
+                        GeneralMatrix[i, 17] = 6;
+                        GeneralMatrix[i, 18] = 6;
+                        GeneralMatrix[i, 10] = 0;
+                        GeneralMatrix[i, 11] = 0;
+                        GeneralMatrix[i, 12] = 0;
+                        if (GeneralMatrix[i, 17] == 8)
+                        {
+                            Error = true;
+                        }
+                    }
+                    Key++;
+                }
+                else if (key1.Key == ConsoleKey.RightArrow && Key == 1)
                 {
                     for (var i = 20; i < GeneralMatrix.GetLength(0); i++)
                     {
                         GeneralMatrix[i, 2] = 0;
                         GeneralMatrix[i, 3] = 0;
                         GeneralMatrix[i, 4] = 0;
-                        GeneralMatrix[i, 10] = 2;
-                        GeneralMatrix[i, 11] = 2;
-                        GeneralMatrix[i, 12] = 2;
+                        GeneralMatrix[i, 10] = 6;
+                        GeneralMatrix[i, 11] = 6;
+                        GeneralMatrix[i, 12] = 6;
                         if (GeneralMatrix[i, 13] == 8)
                         {
                             Error = true;
                         }
                     }
-                    Key = false;
+                    Key++;
                 }
                 if (Error)
                     break;
@@ -339,7 +409,7 @@ namespace ConsoleApplication2
             ResetEvent1.Set();
             ResetEvent2.WaitOne();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.SetCursorPosition(0,23);
+            Console.SetCursorPosition(0, 23);
             Console.Write("\n                             Game over " + TaktsMax + " Points\n");
             Console.ReadKey();
         }
@@ -378,6 +448,16 @@ namespace ConsoleApplication2
                                 if (buf[i, j] != Old[i, j])
                                 {
                                     Console.ForegroundColor = ConsoleColor.DarkRed;
+                                    Console.SetCursorPosition(j + 29, i);
+                                    Console.Write(buf[i, j]);
+                                    Console.ResetColor();
+                                }
+                            }
+                            else if (buf[i, j] == 6)
+                            {
+                                if (buf[i, j] != Old[i, j])
+                                {
+                                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                                     Console.SetCursorPosition(j + 29, i);
                                     Console.Write(buf[i, j]);
                                     Console.ResetColor();
