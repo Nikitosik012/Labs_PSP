@@ -38,7 +38,17 @@ namespace ConsoleApplication2
             { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 2, 2, 0, 1 },
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0 }};
 
-        Queue<int[,]> queue=new Queue<int[,]>();
+        public static Semaphore SemaphoreBuffer = new Semaphore(1, 1);
+        /// <summary>
+        /// Список хранящий последовательность препядствий
+        /// </summary>
+        public static List<int> RoadToHell = new List<int>();
+        /// <summary>
+        /// Буфер хранящий поле
+        /// </summary>
+        public static List<int[,]> Buffer = new List<int[,]>();
+        public static Thread AddBuffer = new Thread(AddBufferMethod);
+        public static Thread OutBuffer = new Thread(OutBufferMethod);
         private static int _shift; //Смещение
         /// <summary>
         /// Флаг говорящий о положении машинки
@@ -48,7 +58,7 @@ namespace ConsoleApplication2
         /// <summary>
         /// Время одного такта игры
         /// </summary>
-        public static int Time = 50;
+        public static int Time = 100;
         /// <summary>
         /// Отсчет 7и тактов
         /// </summary>
@@ -58,6 +68,10 @@ namespace ConsoleApplication2
         /// </summary>
         public static int TaktsMax = 0;
         /// <summary>
+        /// Оповецение о том что больше карта обновляться не будет
+        /// </summary>
+        public static bool Panic = false;
+        /// <summary>
         /// Переменная сообщающая о поражении
         /// </summary>
         public static bool Error;
@@ -66,6 +80,10 @@ namespace ConsoleApplication2
         /// </summary>
         public static int Menu = 1;
         /// <summary>
+        /// Переменная определяющая(см название) false - server, true - client
+        /// </summary>
+        public static bool ServerClient;
+        /// <summary>
         /// Семафор для корректной игры
         /// </summary>
         public static Semaphore HSemaphore = new Semaphore(1, 1);
@@ -73,6 +91,7 @@ namespace ConsoleApplication2
         /// Событие требующее зарытия потока
         /// </summary>
         public static AutoResetEvent ResetEvent1 = new AutoResetEvent(false);
+        public static AutoResetEvent ResetEvent2 = new AutoResetEvent(false);
         /// <summary>
         /// Рисование
         /// </summary>
@@ -181,9 +200,12 @@ namespace ConsoleApplication2
                     }
                     Key = false;
                 }
-                HSemaphore.WaitOne();
-                Output();
-                HSemaphore.Release();
+                //HSemaphore.WaitOne();
+                //Output();
+                SemaphoreBuffer.WaitOne();
+                Buffer.Add(GeneralMatrix);
+                SemaphoreBuffer.Release();
+                //HSemaphore.Release();
                 if (Error)
                     break;
             }
@@ -210,6 +232,7 @@ namespace ConsoleApplication2
                     GeneralMatrix[0, i] = 8;
                 }
             }
+            RoadToHell.Add(a);
         }
         /// <summary>
         /// Преднамеренно выходит из потока
@@ -218,6 +241,9 @@ namespace ConsoleApplication2
         {
             ResetEvent1.WaitOne();
             Program.Driving.Abort();
+            AddBuffer.Abort();
+            //OutBuffer.Abort();
+            Panic = true;
         }
         /// <summary>
         /// Меню игры (появляется 1 раз)
@@ -294,14 +320,17 @@ namespace ConsoleApplication2
         {
             Program.Driving.Start();
             Program.EndGame.Start();
+            AddBuffer.Start();
+            OutBuffer.Start();
             while (true)
             {
-                HSemaphore.WaitOne();
+                //HSemaphore.WaitOne();
                 if (Error)
                     break;
-                Output();
+                //Output();
+
                 Motion();
-                HSemaphore.Release();
+                //HSemaphore.Release();
                 Thread.Sleep(Time);
                 Takts++;
                 TaktsMax++;
@@ -310,9 +339,66 @@ namespace ConsoleApplication2
                 Takts = 0;
             }
             ResetEvent1.Set();
+            ResetEvent2.WaitOne();
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("                             Game over " + TaktsMax + " Points\n");
             Console.ReadKey();
         }
+        /// <summary>
+        /// Метод добавляющий матрицу в буффер
+        /// </summary>
+        public static void AddBufferMethod()
+        {
+            while (true)
+            {
+                SemaphoreBuffer.WaitOne();
+                Buffer.Add(GeneralMatrix);
+                SemaphoreBuffer.Release();
+                Thread.Sleep(10);
+            }
+
+        }
+
+        public static void OutBufferMethod()
+        {
+            while (true)
+            {
+           
+                if (Buffer.Count >= 2)
+                {
+                    var buf = Buffer[0];
+                    SemaphoreBuffer.WaitOne();
+                    Buffer.Remove(Buffer[0]);
+                    SemaphoreBuffer.Release();
+                    Console.Clear();
+                    for (var i = 0; i < buf.GetLength(0); i++)
+                    {
+                        Console.Write("                             ");
+                        for (var j = 0; j < buf.GetLength(1); j++)
+                        {
+                            if (buf[i, j] != 0)
+                            {
+                                if (buf[i, j] == 8)
+                                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                                Console.Write(buf[i, j]);
+                                Console.ResetColor();
+                            }
+                            else
+                                Console.Write(" ");
+                        }
+                        Console.WriteLine();
+                      
+                    }
+                }
+                if (Panic)
+                {
+                    
+                    ResetEvent2.Set();
+                    break;
+                }
+                Thread.Sleep(25);
+            }
+        }
+
     }
 }
