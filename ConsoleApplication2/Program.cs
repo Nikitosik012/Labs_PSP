@@ -13,6 +13,7 @@ namespace ConsoleApplication2
         //public static Thread RoadThread=new Thread();
         static void Main()
         {
+            Variables.Copy(Variables.Old, Variables.GeneralMatrix);
             Variables.MenuGame();
             if (Variables.Menu == 4)
             {
@@ -38,10 +39,6 @@ namespace ConsoleApplication2
             if (Variables.Menu == 5)
             {
                 var bytes = new byte[1000];
-
-                // Соединяемся с удаленным устройством
-
-                // Устанавливаем удаленную точку для сокета
                 Variables.ServerClient = true;
                 IPHostEntry ipHost = Dns.GetHostEntry("localhost");
                 IPAddress ipAddr = ipHost.AddressList[1];

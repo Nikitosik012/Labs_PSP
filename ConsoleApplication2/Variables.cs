@@ -13,30 +13,30 @@ namespace ConsoleApplication2
         /// Матрица поля
         /// </summary>
         public static int[,] GeneralMatrix = 
-        { { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 }, 
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 2, 2, 0, 1 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0 },
-            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 2, 2, 0, 1 },
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0 }};
+        { { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 }, 
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 2, 2, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+            { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 2, 2, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 },
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }};
 
         public static Semaphore SemaphoreBuffer = new Semaphore(1, 1);
         /// <summary>
@@ -49,6 +49,7 @@ namespace ConsoleApplication2
         public static List<int[,]> Buffer = new List<int[,]>();
         public static Thread AddBuffer = new Thread(AddBufferMethod);
         public static Thread OutBuffer = new Thread(OutBufferMethod);
+        public static int[,] Old = new int[GeneralMatrix.GetLength(0), GeneralMatrix.GetLength(1)];
         private static int _shift; //Смещение
         /// <summary>
         /// Флаг говорящий о положении машинки
@@ -62,15 +63,15 @@ namespace ConsoleApplication2
         /// <summary>
         /// Отсчет 7и тактов
         /// </summary>
-        public static int Takts = 0;
+        public static int Takts;
         /// <summary>
         /// Количество тактов за всю игру
         /// </summary>
-        public static int TaktsMax = 0;
+        public static int TaktsMax;
         /// <summary>
         /// Оповецение о том что больше карта обновляться не будет
         /// </summary>
-        public static bool Panic = false;
+        public static bool Panic;
         /// <summary>
         /// Переменная сообщающая о поражении
         /// </summary>
@@ -129,14 +130,20 @@ namespace ConsoleApplication2
                     GeneralMatrix[0, 0] = 0;
                     GeneralMatrix[0, 7] = 0;
                     GeneralMatrix[0, 14] = 0;
+                    GeneralMatrix[0, 21] = 0;
+                    GeneralMatrix[0, 28] = 0;
                 }
                 GeneralMatrix[i, 0] = 1;
                 GeneralMatrix[i, 7] = 1;
                 GeneralMatrix[i, 14] = 1;
+                GeneralMatrix[i, 21] = 1;
+                GeneralMatrix[i, 28] = 1;
                 if (i == GeneralMatrix.GetLength(0) - 1) continue;
                 GeneralMatrix[i + 1, 0] = 0;
                 GeneralMatrix[i + 1, 7] = 0;
                 GeneralMatrix[i + 1, 14] = 0;
+                GeneralMatrix[i + 1, 21] = 0;
+                GeneralMatrix[i + 1, 28] = 0;
             }
             for (var i = GeneralMatrix.GetLength(0) - 1; i >= 0; i--)
             {
@@ -200,12 +207,6 @@ namespace ConsoleApplication2
                     }
                     Key = false;
                 }
-                //HSemaphore.WaitOne();
-                //Output();
-                SemaphoreBuffer.WaitOne();
-                Buffer.Add(GeneralMatrix);
-                SemaphoreBuffer.Release();
-                //HSemaphore.Release();
                 if (Error)
                     break;
             }
@@ -242,7 +243,6 @@ namespace ConsoleApplication2
             ResetEvent1.WaitOne();
             Program.Driving.Abort();
             AddBuffer.Abort();
-            //OutBuffer.Abort();
             Panic = true;
         }
         /// <summary>
@@ -318,19 +318,17 @@ namespace ConsoleApplication2
         /// </summary>
         public static void GamePlay()
         {
+            Console.Clear();
+            Output();
             Program.Driving.Start();
             Program.EndGame.Start();
             AddBuffer.Start();
             OutBuffer.Start();
             while (true)
             {
-                //HSemaphore.WaitOne();
                 if (Error)
                     break;
-                //Output();
-
                 Motion();
-                //HSemaphore.Release();
                 Thread.Sleep(Time);
                 Takts++;
                 TaktsMax++;
@@ -341,7 +339,8 @@ namespace ConsoleApplication2
             ResetEvent1.Set();
             ResetEvent2.WaitOne();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("                             Game over " + TaktsMax + " Points\n");
+            Console.SetCursorPosition(0,23);
+            Console.Write("\n                             Game over " + TaktsMax + " Points\n");
             Console.ReadKey();
         }
         /// <summary>
@@ -356,43 +355,61 @@ namespace ConsoleApplication2
                 SemaphoreBuffer.Release();
                 Thread.Sleep(10);
             }
-
         }
 
         public static void OutBufferMethod()
         {
             while (true)
             {
-           
-                if (Buffer.Count >= 2)
+
+                if (Buffer.Count > 1)
                 {
-                    var buf = Buffer[0];
+                    int[,] buf = new int[GeneralMatrix.GetLength(0), GeneralMatrix.GetLength(1)];
+                    Copy(buf, Buffer[0]);
                     SemaphoreBuffer.WaitOne();
                     Buffer.Remove(Buffer[0]);
                     SemaphoreBuffer.Release();
-                    Console.Clear();
                     for (var i = 0; i < buf.GetLength(0); i++)
                     {
-                        Console.Write("                             ");
                         for (var j = 0; j < buf.GetLength(1); j++)
                         {
-                            if (buf[i, j] != 0)
+                            if (buf[i, j] == 8)
                             {
-                                if (buf[i, j] == 8)
+                                if (buf[i, j] != Old[i, j])
+                                {
                                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                                Console.Write(buf[i, j]);
-                                Console.ResetColor();
+                                    Console.SetCursorPosition(j + 29, i);
+                                    Console.Write(buf[i, j]);
+                                    Console.ResetColor();
+                                }
+                            }
+                            else if (buf[i, j] != 0)
+                            {
+                                if (buf[i, j] != Old[i, j])
+                                {
+                                    Console.SetCursorPosition(j + 29, i);
+                                    Console.Write(buf[i, j]);
+                                }
+                            }
+                            else if (buf[i, j] != 0)
+                            {
+
                             }
                             else
-                                Console.Write(" ");
+                            {
+                                if (buf[i, j] != Old[i, j])
+                                {
+                                    Console.SetCursorPosition(j + 29, i);
+                                    Console.Write(" ");
+                                }
+                            }
                         }
-                        Console.WriteLine();
-                      
                     }
+                    Copy(Old, buf);
                 }
                 if (Panic)
                 {
-                    
+
                     ResetEvent2.Set();
                     break;
                 }
@@ -400,5 +417,11 @@ namespace ConsoleApplication2
             }
         }
 
+        public static void Copy(int[,] one, int[,] two)
+        {
+            for (int i = 0; i < one.GetLength(0); i++)
+                for (int j = 0; j < one.GetLength(1); j++)
+                    one[i, j] = two[i, j];
+        }
     }
 }
