@@ -39,14 +39,17 @@ namespace ConsoleApplication2
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }};
 
         /// <summary>
+        /// Для синхронизации добавления и удаления из списка
         /// </summary>
         public static Semaphore SemaphoreBuffer = new Semaphore(1, 1);
 
+        public static Semaphore HSemaphore1 = new Semaphore(1, 1);
+        public static Semaphore HSemaphore2 = new Semaphore(1, 1);
         /// <summary>
         /// Список хранящий последовательность препядствий
         /// </summary>
         public static List<int> RoadToHell = new List<int>();
-
+        public static List<int> RoadToHell1 = new List<int>();
         /// <summary>
         /// Буфер хранящий поле
         /// </summary>
@@ -55,7 +58,7 @@ namespace ConsoleApplication2
         /// <summary>
         /// Поток отправляющий клиенту инфу
         /// </summary>
-       // public static Thread ServerGenerate = new Thread();
+        public static Thread ServerGenerate = new Thread(Generate);
 
         /// <summary>
         /// Клиент получает инфу
@@ -245,7 +248,7 @@ namespace ConsoleApplication2
                         GeneralMatrix[i, 10] = 6;
                         GeneralMatrix[i, 11] = 6;
                         GeneralMatrix[i, 12] = 6;
-                        if (GeneralMatrix[i, 9] == 8)
+                        if (GeneralMatrix[i, 13] == 8)
                         {
                             Error = true;
                         }
@@ -259,9 +262,9 @@ namespace ConsoleApplication2
                         GeneralMatrix[i, 16] = 6;
                         GeneralMatrix[i, 17] = 6;
                         GeneralMatrix[i, 18] = 6;
-                        GeneralMatrix[i, 25] = 0;
                         GeneralMatrix[i, 23] = 0;
                         GeneralMatrix[i, 24] = 0;
+                        GeneralMatrix[i, 25] = 0;
                         if (GeneralMatrix[i, 15] == 8)
                         {
                             Error = true;
@@ -279,7 +282,7 @@ namespace ConsoleApplication2
                         GeneralMatrix[i, 23] = 6;
                         GeneralMatrix[i, 24] = 6;
                         GeneralMatrix[i, 25] = 6;
-                        if (GeneralMatrix[i, 25] == 8)
+                        if (GeneralMatrix[i, 26] == 8)
                         {
                             Error = true;
                         }
@@ -296,7 +299,7 @@ namespace ConsoleApplication2
                         GeneralMatrix[i, 10] = 0;
                         GeneralMatrix[i, 11] = 0;
                         GeneralMatrix[i, 12] = 0;
-                        if (GeneralMatrix[i, 17] == 8)
+                        if (GeneralMatrix[i, 19] == 8)
                         {
                             Error = true;
                         }
@@ -329,9 +332,10 @@ namespace ConsoleApplication2
         /// </summary>
         public static void Obstacle()
         {
-            //1-лево 2-право
-            var rand = new Random();
-            var a = rand.Next(1, 5);
+            var a = RoadToHell1[0];
+            HSemaphore2.WaitOne();
+            RoadToHell1.Remove(RoadToHell1[0]);
+            HSemaphore2.Release();
             if (a == 1)
             {
                 for (var i = 1; i < 7; i++)
@@ -360,7 +364,6 @@ namespace ConsoleApplication2
                     GeneralMatrix[0, i] = 8;
                 }
             }
-            RoadToHell.Add(a);
         }
         /// <summary>
         /// Преднамеренно выходит из потока
@@ -445,6 +448,7 @@ namespace ConsoleApplication2
         /// </summary>
         public static void GamePlay()
         {
+            ServerGenerate.Start();
             Console.Clear();
             Output();
             Program.Driving.Start();
@@ -573,6 +577,22 @@ namespace ConsoleApplication2
             for (int i = 0; i < one.GetLength(0); i++)
                 for (int j = 0; j < one.GetLength(1); j++)
                     one[i, j] = two[i, j];
+        }
+
+        public static void Generate()
+        {
+            while (true)
+            {
+                var rand = new Random();
+                var a = rand.Next(1, 5);
+                HSemaphore1.WaitOne();
+                RoadToHell.Add(a);
+                HSemaphore1.Release();
+                HSemaphore2.WaitOne();
+                RoadToHell1.Add(a);
+                HSemaphore2.Release();
+                Thread.Sleep(10);
+            }
         }
     }
 }

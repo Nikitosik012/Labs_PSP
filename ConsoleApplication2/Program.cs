@@ -61,6 +61,7 @@ namespace ConsoleApplication2
             if (Variables.Menu == 1)
             {
                 Variables.GamePlay();
+                Variables.ServerGenerate.Abort();
             }
 
 
